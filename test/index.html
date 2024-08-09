@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Titties</title>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    </head>
+    <body>
+        <script>
+            $(document).ready(function()
+            {
+                $('input[type=submit]').hide();
+                function valCheck()
+                {
+                    if ($('#txtA').val().length < 1|| $('#usrName').val().length < 1)
+                    {
+                        $('input[type=submit]').hide();
+                    }else
+                    {
+                        $('input[type=submit]').show();
+                    }
+                }
+                $('#usrName, #txtA').on('input',valCheck);
+                setInterval( function()
+                {
+                    $.ajax(
+                        {
+                            url: "/messages",
+                            method: "GET",
+                            success: function(data)
+                            {
+                                $('#msgs').html(data);
+                            }
+                        });
+                },3000);
+            });
+        </script>
+        <p id="msgs">${dataToSend.join('<br>')}</p>
+        <form action="/" method="POST">
+            <input type="text" name="usrName" id="usrName" placeholder="name">
+            <br><br><br>
+            <textarea name="txtA" id="txtA" placeholder="message"></textarea>
+            <br>
+            <input type="submit">
+        </form>
+    </body>
+    <style>
+        body
+        {
+            font-family: sans-serif;
+            background-color: azure;
+        }
+        #txtA
+        {
+            resize: none;
+        }
+        form
+        {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            translate: calc(-50%);
+            height: max-content;
+            width: max-content;
+            text-align: center;
+            padding: 10px;
+            font-family: 'Lucida Sans',sans-serif;
+            transform: scale(1.2);
+        }
+        form>*
+        {
+            font-family: inherit;
+            border: none;
+            border-radius: 5px;
+        }
+        input[type="submit"]
+        {
+            background-color: darkgrey;
+            padding: 5px;
+            position: relative;
+        }
+        #msgs
+        {
+            text-align: center;
+            font-size: 1.5rem;
+        }
+    </style>
+</html>
